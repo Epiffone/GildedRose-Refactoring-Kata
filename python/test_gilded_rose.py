@@ -39,10 +39,14 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(items[0].quality, 50)
 
     def test_item_quality_never_exceeds_50(self):
-        items = [Item("Aged Brie", 1, 50)]
+        items = [
+            Item("Aged Brie", 1, 50),
+            Item("Backstage passes to a TAFKAL80ETC concert", 1, 50),
+        ]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(items[0].quality, 50)
+        self.assertEqual(items[1].quality, 50)
 
     def test_sulfuras_item_attributes_never_decrease(self):
         items = [Item("Sulfuras, Hand of Ragnaros", 1, 1)]
