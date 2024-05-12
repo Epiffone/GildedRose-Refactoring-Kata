@@ -45,29 +45,28 @@ class GildedRose(object):
             ]:
                 self._normal_update(item)
                 continue
+
             elif item.name.lower() == "sulfuras, hand of ragnaros":
                 continue
-            else:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
-                    if item.name == "Backstage passes to a TAFKAL80ETC concert":
-                        if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-                        if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
-            item.sell_in = item.sell_in - 1
-            if item.sell_in < 0:
-                if item.name != "Aged Brie":
-                    if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                        if item.quality > 0:
-                            item.quality = item.quality - 1
-                    else:
-                        item.quality = item.quality - item.quality
-                else:
+
+            elif item.name.lower() == "aged brie":
+                item.quality = item.quality + 1 if item.quality < 50 else item.quality
+                item.sell_in = item.sell_in - 1
+                if item.sell_in < 0:
                     if item.quality < 50:
                         item.quality = item.quality + 1
+
+            elif item.name.lower() == "backstage passes to a tafkal80etc concert":
+                item.quality = item.quality + 1 if item.quality < 50 else item.quality
+                if item.sell_in < 11:
+                    if item.quality < 50:
+                        item.quality = item.quality + 1
+                if item.sell_in < 6:
+                    if item.quality < 50:
+                        item.quality = item.quality + 1
+                item.sell_in = item.sell_in - 1
+                if item.sell_in < 0:
+                    item.quality = item.quality - item.quality
 
     def _normal_update(self, item):
         if item.quality > 0:
