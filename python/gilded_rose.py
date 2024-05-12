@@ -21,28 +21,29 @@ class GildedRose(object):
     def update_quality(self) -> None:
         """
         Updates the quality of all items in the inventory each day.
+        Sulfuras does not have to be sold, nor decreases in quality.
         """
         for item in self.items:
-            if item.name.lower() not in [
-                "aged brie",
-                "backstage passes to a tafkal80etc concert",
-                "sulfuras, hand of ragnaros",
-            ]:
+            if item.name.lower() == "sulfuras, hand of ragnaros":
+                continue
+            elif item.name.lower() == "aged brie":
+                self._aged_brie_update(item)
+                continue
+            elif item.name.lower() == "backstage passes to a tafkal80etc concert":
+                self._backstage_passes_update(item)
+                continue
+            elif item.name.lower() == "conjured party hat":
+                self._conjured_party_hat_update(item)
+                continue
+            else:
                 self._normal_update(item)
                 continue
-
-            elif item.name.lower() == "sulfuras, hand of ragnaros":
-                continue
-
-            if item.name.lower() == "aged brie":
-                self._aged_brie_update(item)
-
-            if item.name.lower() == "backstage passes to a tafkal80etc concert":
-                self._backstage_passes_update(item)
 
     def _normal_update(self, item: "Item") -> None:
         """
         Updates the quality and sell-in values for a normal item.
+        A normal item reduces in quality and sell-in each day.
+        After sell_in drops to 0, quality reduces twice as fast.
 
         Args:
             item (Item): The item to update.
@@ -55,7 +56,8 @@ class GildedRose(object):
 
     def _backstage_passes_update(self, item: "Item") -> None:
         """
-        Updates the quality and sell-in values for a 'Backstage passes' item.
+        Updates the quality and sell-in values for a 'Backstage Passes' item.
+        'Backstage Passes' increase in quality as sell_in increases, but drops to 0 after the concert.
 
         Args:
             item (Item): The item to update.
@@ -73,6 +75,7 @@ class GildedRose(object):
     def _aged_brie_update(self, item: "Item") -> None:
         """
         Updates the quality and sell-in values for an 'Aged Brie' item.
+        'Aged Brie' increases in quality the older it gets.
 
         Args:
             item (Item): The item to update.
@@ -82,6 +85,20 @@ class GildedRose(object):
         item.sell_in -= 1
         if item.sell_in < 0 and item.quality < 50:
             item.quality += 1
+
+    def _conjured_party_hat_update(self, item):
+        """
+        Updates the quality and sell-in values for a "Conjured Party Hat" item.
+        'Conjured Party Hat' degrades in quality twice as fast as normal items.
+
+        Args:
+            item (Item): The item to update.
+        """
+        if item.quality > 1:
+            item.quality -= 2
+        item.sell_in -= 1
+        if item.sell_in < 0 and item.quality > 1:
+            item.quality -= 2
 
 
 class Item:

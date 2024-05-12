@@ -73,6 +73,15 @@ class GildedRoseTest(unittest.TestCase):
         self.assertEqual(items[1].quality, 3)
         self.assertEqual(items[2].quality, 0)
 
+    def test_conjured_party_hat_degrades_twice_as_fast_as_normal(self):
+        items = [Item("Conjured Party Hat", 2, 2), Item("Conjured Party Hat", 0, 4)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(items[0].sell_in, 1)
+        self.assertEqual(items[0].quality, 0)
+        self.assertEqual(items[1].sell_in, -1)
+        self.assertEqual(items[1].quality, 0)
+
 
 if __name__ == "__main__":
     unittest.main()
