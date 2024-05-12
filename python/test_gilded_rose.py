@@ -63,15 +63,21 @@ class GildedRoseTest(unittest.TestCase):
 
     def test_backstage_passes__quality_changes_as_it_approaches_sell_in(self):
         items = [
+            Item("Backstage passes to a TAFKAL80ETC concert", 12, 0),
             Item("Backstage passes to a TAFKAL80ETC concert", 10, 0),
             Item("Backstage passes to a TAFKAL80ETC concert", 5, 0),
-            Item("Backstage passes to a TAFKAL80ETC concert", 0, 1),
+            Item("Backstage passes to a TAFKAL80ETC concert", 0, 3),
         ]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(items[0].quality, 2)
-        self.assertEqual(items[1].quality, 3)
-        self.assertEqual(items[2].quality, 0)
+        self.assertEqual(items[0].sell_in, 11)
+        self.assertEqual(items[0].quality, 1)
+        self.assertEqual(items[1].sell_in, 9)
+        self.assertEqual(items[1].quality, 2)
+        self.assertEqual(items[2].sell_in, 4)
+        self.assertEqual(items[2].quality, 3)
+        self.assertEqual(items[3].sell_in, -1)
+        self.assertEqual(items[3].quality, 0)
 
     def test_conjured_party_hat_degrades_twice_as_fast_as_normal(self):
         items = [Item("Conjured Mana Cake", 2, 2), Item("Conjured Mana Cake", 0, 4)]
