@@ -32,8 +32,8 @@ class GildedRose(object):
             elif item.name.lower() == "backstage passes to a tafkal80etc concert":
                 self._backstage_passes_update(item)
                 continue
-            elif item.name.lower() == "conjured party hat":
-                self._conjured_party_hat_update(item)
+            elif item.name.lower() == "conjured mana cake":
+                self._conjured_mana_cake_update(item)
                 continue
             else:
                 self._normal_update(item)
@@ -86,10 +86,10 @@ class GildedRose(object):
         if item.sell_in < 0 and item.quality < 50:
             item.quality += 1
 
-    def _conjured_party_hat_update(self, item):
+    def _conjured_mana_cake_update(self, item):
         """
-        Updates the quality and sell-in values for a "Conjured Party Hat" item.
-        'Conjured Party Hat' degrades in quality twice as fast as normal items.
+        Updates the quality and sell-in values for a "Conjured Mana Cake" item.
+        'Conjured Mana Cake' degrades in quality twice as fast as normal items.
 
         Args:
             item (Item): The item to update.
